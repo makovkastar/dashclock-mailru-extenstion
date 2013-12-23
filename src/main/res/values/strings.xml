@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DashClock Mail.ru Extension</string>
+    <string name="extension_title">Mail.ru</string>
+    <string name="extension_description">Displays an unread count of Mail.ru emails.</string>
+    <string name="title_settings">DashClock Mail.ru extension settings</string>
+    <string name="title_login">Mail.ru login</string>
+</resources>
