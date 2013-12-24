@@ -1,5 +1,6 @@
 package com.melnykov.dashclock.mailruextension.test;
 
+import android.os.SystemClock;
 import android.test.AndroidTestCase;
 import com.melnykov.dashclock.mailruextension.Auth;
 import com.melnykov.dashclock.mailruextension.Constants;
@@ -11,7 +12,7 @@ public class AuthSessionTest extends AndroidTestCase {
 
     private static final String ACCESS_TOKEN = "b6442ed12223a7d0b459916b8ea03ce5";
     private static final String REFRESH_TOKEN = "b45529ac9bf6b32be761975c043ef9e3";
-    private static final int EXPIRES_IN = 3600;
+    private static final int EXPIRES_IN = 3;
     private static final String TOKEN_TYPE = "bearer";
 
     private static final String REDIRECT_URL = Constants.REDIRECT_URL +
@@ -44,17 +45,36 @@ public class AuthSessionTest extends AndroidTestCase {
     }
 
     public void testSessionData() {
-        Session.getInstance(getContext()).destroy(getContext());
         saveValidSession();
 
         assertThat(Session.getInstance(getContext()).getAccessToken()).isEqualTo(ACCESS_TOKEN);
         assertThat(Session.getInstance(getContext()).getRefreshToken()).isEqualTo(REFRESH_TOKEN);
     }
 
+    public void testSessionExpiration() {
+        saveExpiredSession();
+        assertThat(Session.getInstance(getContext()).isValid()).isFalse();
+
+        // Save valid session
+        saveSession(EXPIRES_IN);
+        assertThat(Session.getInstance(getContext()).isValid()).isTrue();
+        // Wait until session expires
+        SystemClock.sleep((EXPIRES_IN * 2) * 1000);
+        assertThat(Session.getInstance(getContext()).isValid()).isFalse();
+    }
+
     private void saveValidSession() {
+        saveSession(EXPIRES_IN);
+    }
+
+    private void saveExpiredSession() {
+        saveSession(0);
+    }
+
+    private void saveSession(int expiresIn) {
         Session.getInstance(getContext()).setAccessToken(ACCESS_TOKEN)
                 .setRefreshToken(REFRESH_TOKEN)
-                .setExpiresIn(EXPIRES_IN)
+                .setExpiresIn(expiresIn)
                 .save(getContext());
     }
 }
