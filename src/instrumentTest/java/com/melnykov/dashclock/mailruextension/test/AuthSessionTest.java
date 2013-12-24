@@ -6,7 +6,7 @@ import com.melnykov.dashclock.mailruextension.Constants;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class AuthTest extends AndroidTestCase{
+public class AuthSessionTest extends AndroidTestCase {
 
     private static final String ACCESS_TOKEN = "b6442ed12223a7d0b459916b8ea03ce5";
     private static final String REFRESH_TOKEN = "b45529ac9bf6b32be761975c043ef9e3";
