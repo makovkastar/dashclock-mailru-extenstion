@@ -1,9 +1,7 @@
 package com.melnykov.dashclock.mailruextension;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 
 public class Session {
@@ -47,8 +45,9 @@ public class Session {
         return refreshToken;
     }
 
-    public void setRefreshToken(String refreshToken) {
+    public Session setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+        return this;
     }
 
     public Session setExpiresIn(int expiresIn) {
@@ -56,13 +55,24 @@ public class Session {
         return this;
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    public void save(Context ctx) {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        prefs.edit()
-                .putString(Constants.KEY_ACCESS_TOKEN, accessToken)
+    public synchronized void save(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.edit().putString(Constants.KEY_ACCESS_TOKEN, accessToken)
                 .putString(Constants.KEY_REFRESH_TOKEN, refreshToken)
                 .putInt(Constants.KEY_EXPIRES_IN, expiresIn)
+                .apply();
+    }
+
+    public synchronized void destroy(Context ctx) {
+        this.accessToken = null;
+        this.refreshToken = null;
+        this.expiresIn = 0;
+        instance = null;
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.edit().remove(Constants.KEY_ACCESS_TOKEN)
+                .remove(Constants.KEY_REFRESH_TOKEN)
+                .remove(Constants.KEY_EXPIRES_IN)
                 .apply();
     }
 }

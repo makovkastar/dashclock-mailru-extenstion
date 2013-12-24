@@ -3,6 +3,7 @@ package com.melnykov.dashclock.mailruextension.test;
 import android.test.AndroidTestCase;
 import com.melnykov.dashclock.mailruextension.Auth;
 import com.melnykov.dashclock.mailruextension.Constants;
+import com.melnykov.dashclock.mailruextension.Session;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -23,5 +24,37 @@ public class AuthSessionTest extends AndroidTestCase {
         assertThat(Auth.getAccessToken(REDIRECT_URL)).isEqualTo(ACCESS_TOKEN);
         assertThat(Auth.getExpiresIn(REDIRECT_URL)).isEqualTo(EXPIRES_IN);
         assertThat(Auth.getRefreshToken(REDIRECT_URL)).isEqualTo(REFRESH_TOKEN);
+    }
+
+    public void testSessionInstance() {
+        assertThat(Session.getInstance(getContext())).isNotNull();
+        assertThat(Session.getInstance(getContext())).isEqualTo(Session.getInstance(getContext()));
+    }
+
+    public void testSaveDestroySession() {
+        saveValidSession();
+        assertThat(Session.getInstance(getContext()).isValid()).isTrue();
+
+        Session oldSession = Session.getInstance(getContext());
+        oldSession.destroy(getContext());
+
+        assertThat(oldSession.isValid()).isFalse();
+        assertThat(Session.getInstance(getContext()).isValid()).isFalse();
+        assertThat(Session.getInstance(getContext())).isNotSameAs(oldSession);
+    }
+
+    public void testSessionData() {
+        Session.getInstance(getContext()).destroy(getContext());
+        saveValidSession();
+
+        assertThat(Session.getInstance(getContext()).getAccessToken()).isEqualTo(ACCESS_TOKEN);
+        assertThat(Session.getInstance(getContext()).getRefreshToken()).isEqualTo(REFRESH_TOKEN);
+    }
+
+    private void saveValidSession() {
+        Session.getInstance(getContext()).setAccessToken(ACCESS_TOKEN)
+                .setRefreshToken(REFRESH_TOKEN)
+                .setExpiresIn(EXPIRES_IN)
+                .save(getContext());
     }
 }
