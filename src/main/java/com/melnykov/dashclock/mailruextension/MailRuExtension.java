@@ -33,8 +33,8 @@ public class MailRuExtension extends DashClockExtension {
 
     private ExtensionData buildActualExtensionData() {
         ExtensionData extensionData = new ExtensionData();
-        int unreadMailCount = new MailRuWebService.UnreadMailCount().get();
         try {
+            int unreadMailCount = new MailRuWebService.UnreadMailCount().get();
             if (unreadMailCount == 0) {
                 // Hide extension if no new messages and no notifications
                 extensionData.visible(false);
@@ -50,9 +50,7 @@ public class MailRuExtension extends DashClockExtension {
         } catch (Exception e) {
             // Hide extension if error occurred
             extensionData.visible(false);
-            if (Constants.DEBUG) {
-                Log.d(TAG, "Cannot build extension data", e);
-            }
+            if (Constants.DEBUG) { Log.d(TAG, "Cannot build extension data", e); }
         }
 
         return extensionData;
