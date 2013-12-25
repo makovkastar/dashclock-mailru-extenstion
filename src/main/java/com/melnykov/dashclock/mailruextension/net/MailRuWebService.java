@@ -1,6 +1,7 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailruextension.net;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.Auth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 import org.json.JSONException;
