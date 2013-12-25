@@ -1,6 +1,5 @@
 package com.melnykov.dashclock.mailruextension.net;
 
-import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.Auth;
@@ -26,15 +25,31 @@ public class MailRuWebService {
         params.put(Constants.REQ_KEY_SIG, Auth.calculateSignature(params, Constants.APP_SECRET_KEY));
     }
 
-    public String sendRequest() {
-        if (Constants.DEBUG) {
-            Log.d(TAG, "Sending GET request");
-        }
-        String response =  HttpRequest.get(BASE_URL, params, true).body();
-        if (Constants.DEBUG) {
-            Log.d(TAG, "Response: " + response);
+    public String sendRequest() throws MailRuApiException {
+        String response = HttpRequest.get(BASE_URL, params, true).body();
+        if (hasError(response)) {
+            throw new MailRuApiException(getErrorCode(response));
         }
         return response;
+    }
+
+    private boolean hasError(String response) {
+        try {
+            return new JSONObject(response).has("error");
+        } catch (JSONException e) {
+            // Cannot recover
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int getErrorCode(String response) {
+        try {
+            JSONObject json = new JSONObject(response);
+            return json.getJSONObject("error").getInt("error_code");
+        } catch (JSONException e) {
+            // Cannot recover
+            throw new RuntimeException(e);
+        }
     }
 
     public static class UnreadMailCount extends MailRuWebService {
@@ -43,22 +58,14 @@ public class MailRuWebService {
             super("mail.getUnreadCount");
         }
 
-        public int get() {
-            int unreadMailCount = 0;
+        public int get() throws MailRuApiException {
             String response = sendRequest();
-
-            if (response != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(response);
-                    unreadMailCount = jsonObj.getInt("count");
-                } catch (JSONException e) {
-                    // Ignore
-                    if (Constants.DEBUG) {
-                        Log.d(TAG, "Cannot parse JSON response", e);
-                    }
-                }
+            try {
+                return new JSONObject(response).getInt("count");
+            } catch (JSONException e) {
+                // Cannot recover
+                throw new RuntimeException(e);
             }
-            return unreadMailCount;
         }
     }
 }
