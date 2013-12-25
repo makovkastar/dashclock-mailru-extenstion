@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
+import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
 import com.melnykov.dashclock.mailruextension.net.MailRuWebService;
 import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
 import com.melnykov.dashclock.mailruextension.util.Constants;
+import com.melnykov.dashclock.mailruextension.util.NetworkUtil;
 
 public class MailRuExtension extends DashClockExtension {
 
@@ -25,7 +27,9 @@ public class MailRuExtension extends DashClockExtension {
         }
 
         if (Session.getInstance().isAuthorized()) {
-            publishUpdate(buildActualExtensionData());
+            if (NetworkUtil.hasInternetConnection(getApplicationContext())) {
+                publishUpdate(buildActualExtensionData());
+            }
         } else {
             publishUpdate(buildAuthRequiredExtensionData());
         }
@@ -39,13 +43,10 @@ public class MailRuExtension extends DashClockExtension {
                 // Hide extension if no new messages and no notifications
                 extensionData.visible(false);
             } else {
-                extensionData.visible(true);
-                String status = formatQuantityString(R.plurals.unread_mails, unreadMailCount);
-                String expandedBody = "";
-
-                extensionData.status(status);
-                extensionData.expandedBody(expandedBody);
+                extensionData.status(formatQuantityString(R.plurals.unread_mails, unreadMailCount));
+                extensionData.expandedBody(getAccountName());
                 extensionData.clickIntent(createMessagesIntent());
+                extensionData.visible(true);
             }
         } catch (Exception e) {
             // Hide extension if error occurred
@@ -54,6 +55,16 @@ public class MailRuExtension extends DashClockExtension {
         }
 
         return extensionData;
+    }
+
+    private String getAccountName() throws MailRuApiException {
+        if (Session.getInstance().getAccountName() == null) {
+            String email = new MailRuWebService.UserInfo().getEmail();
+            Session.getInstance().setAccountName(email).save();
+            return email;
+        } else {
+            return Session.getInstance().getAccountName();
+        }
     }
 
     private String formatQuantityString(int resId, int quantity) {
