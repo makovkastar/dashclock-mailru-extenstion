@@ -2,7 +2,7 @@ package com.melnykov.dashclock.mailruextension.test;
 
 import android.os.SystemClock;
 import android.test.AndroidTestCase;
-import com.melnykov.dashclock.mailruextension.util.Auth;
+import com.melnykov.dashclock.mailruextension.net.MailRuAuth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 import com.melnykov.dashclock.mailruextension.Session;
 
@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class AuthSessionTest extends AndroidTestCase {
+public class MailRuAuthSessionTest extends AndroidTestCase {
 
     private static final String TEST_ACCESS_TOKEN = "b6442ed12223a7d0b459916b8ea03ce5";
     private static final String TEST_REFRESH_TOKEN = "b45529ac9bf6b32be761975c043ef9e3";
@@ -24,9 +24,9 @@ public class AuthSessionTest extends AndroidTestCase {
             "&token_type=" + TEST_TOKEN_TYPE;
 
     public void testParseRedirectUrl() {
-        assertThat(Auth.getAccessToken(REDIRECT_URL)).isEqualTo(TEST_ACCESS_TOKEN);
-        assertThat(Auth.getExpiresIn(REDIRECT_URL)).isEqualTo(TEST_EXPIRES_IN);
-        assertThat(Auth.getRefreshToken(REDIRECT_URL)).isEqualTo(TEST_REFRESH_TOKEN);
+        assertThat(MailRuAuth.getAccessToken(REDIRECT_URL)).isEqualTo(TEST_ACCESS_TOKEN);
+        assertThat(MailRuAuth.getExpiresIn(REDIRECT_URL)).isEqualTo(TEST_EXPIRES_IN);
+        assertThat(MailRuAuth.getRefreshToken(REDIRECT_URL)).isEqualTo(TEST_REFRESH_TOKEN);
     }
 
     public void testSessionInstance() {
@@ -77,7 +77,7 @@ public class AuthSessionTest extends AndroidTestCase {
         params.put(Constants.REQ_KEY_SESSION_KEY, "be6ef89965d58e56dec21acb9b62bdaa");
         params.put(Constants.REQ_KEY_SECURE, "1");
 
-        String sig = Auth.calculateSignature(params, testSecretKey);
+        String sig = MailRuAuth.calculateSignature(params, testSecretKey);
         assertThat(sig).isEqualTo(expectedSig);
     }
 

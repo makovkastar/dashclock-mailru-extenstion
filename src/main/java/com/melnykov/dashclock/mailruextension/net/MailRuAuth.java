@@ -1,4 +1,6 @@
-package com.melnykov.dashclock.mailruextension.util;
+package com.melnykov.dashclock.mailruextension.net;
+
+import com.melnykov.dashclock.mailruextension.util.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -8,7 +10,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Auth {
+public class MailRuAuth {
 
     public static String getAuthorizationUrl(String appId) {
         return new StringBuilder(Constants.AUTH_URL)

@@ -2,7 +2,6 @@ package com.melnykov.dashclock.mailruextension.net;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.melnykov.dashclock.mailruextension.Session;
-import com.melnykov.dashclock.mailruextension.util.Auth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +19,7 @@ public class MailRuApi {
         params.put(Constants.REQ_KEY_APP_ID, Constants.APP_ID);
         params.put(Constants.REQ_KEY_SECURE, String.valueOf(1));
         params.put(Constants.REQ_KEY_SESSION_KEY, Session.getInstance().getAccessToken());
-        params.put(Constants.REQ_KEY_SIG, Auth.calculateSignature(params, Constants.APP_SECRET_KEY));
+        params.put(Constants.REQ_KEY_SIG, MailRuAuth.calculateSignature(params, Constants.APP_SECRET_KEY));
     }
 
     public String sendRequest() throws MailRuApiException {
