@@ -10,4 +10,5 @@
     <!-- Toasts -->
     <string name="toast_login_success">You have been successfully logged in</string>
     <string name="toast_login_fail">Failed to login</string>
+    <string name="unknown_account">Mail.ru</string>
 </resources>
