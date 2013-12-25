@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     compile 'com.google.android.apps.dashclock:dashclock-api:+'
+    compile 'com.github.kevinsawicki:http-request:5.5'
 
     instrumentTestCompile 'junit:junit:4.8.1'
     instrumentTestCompile 'com.squareup:fest-android:1.0.+'
