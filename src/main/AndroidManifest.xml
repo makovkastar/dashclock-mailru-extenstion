@@ -25,7 +25,7 @@
                        android:value=".SettingsActivity"/>
         </service>
 
-        <activity android:name="com.melnykov.dashclock.mailruextension.LoginActivity"
+        <activity android:name=".ui.LoginActivity"
                   android:excludeFromRecents="true"
                   android:label="@string/title_login"
                   android:exported="true"/>

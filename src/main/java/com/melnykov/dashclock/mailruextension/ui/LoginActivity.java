@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailruextension.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import com.melnykov.dashclock.mailruextension.R;
+import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.Auth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 

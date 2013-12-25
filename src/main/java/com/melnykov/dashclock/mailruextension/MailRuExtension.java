@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
+import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 
 public class MailRuExtension extends DashClockExtension {
