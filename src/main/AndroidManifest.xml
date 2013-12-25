@@ -25,6 +25,10 @@
                        android:value=".SettingsActivity"/>
         </service>
 
+        <activity android:name=".ui.SettingsActivity"
+                  android:label="@string/title_settings"
+                  android:exported="true" />
+
         <activity android:name=".ui.LoginActivity"
                   android:excludeFromRecents="true"
                   android:label="@string/title_login"
