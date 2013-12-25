@@ -2,11 +2,19 @@ package com.melnykov.dashclock.mailruextension.util;
 
 public class Constants {
     public static final String APP_ID = "705871";
-    public static final String APP_PRIVATE_KEY = "04ccd4c7718e0de1e2cf32120139cf2f";
     public static final String APP_SECRET_KEY = "c8c192cba00e308d2ebf45d7712365cd";
 
     public static final String AUTH_URL = "https://connect.mail.ru/oauth/authorize";
     public static final String REDIRECT_URL = "http://connect.mail.ru/oauth/success";
+
+    /**
+     * Request parameters keys
+     */
+    public static final String REQ_KEY_APP_ID = "app_id";
+    public static final String REQ_KEY_METHOD = "method";
+    public static final String REQ_KEY_SECURE = "secure";
+    public static final String REQ_KEY_SESSION_KEY = "session_key";
+    public static final String REQ_KEY_SIG = "sig";
 
     /**
      * Shared preferences keys

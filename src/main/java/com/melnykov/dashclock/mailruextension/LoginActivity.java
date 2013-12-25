@@ -1,12 +1,13 @@
 package com.melnykov.dashclock.mailruextension;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import com.melnykov.dashclock.mailruextension.util.Auth;
+import com.melnykov.dashclock.mailruextension.util.Constants;
 
 public class LoginActivity extends Activity {
 
@@ -45,11 +46,10 @@ public class LoginActivity extends Activity {
         }
 
         private void saveSessionData(String url) {
-            Context context = getApplicationContext();
-            Session.getInstance(context)
-                    .setAccessToken(Auth.getAccessToken(url))
-                    .setExpiresIn(Auth.getExpiresIn(url))
-                    .save(context);
+            Session.getInstance()
+                    .setAccessToken(Auth.getAccessToken(url), Auth.getExpiresIn(url))
+                    .setRefreshToken(Auth.getRefreshToken(url))
+                    .save();
         }
     }
 
