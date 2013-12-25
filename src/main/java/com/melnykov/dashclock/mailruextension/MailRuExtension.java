@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
-import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
 import com.melnykov.dashclock.mailruextension.net.MailRuWebService;
 import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
 import com.melnykov.dashclock.mailruextension.util.Constants;
@@ -36,7 +35,7 @@ public class MailRuExtension extends DashClockExtension {
     }
 
     private ExtensionData buildActualExtensionData() {
-        ExtensionData extensionData = new ExtensionData();
+        ExtensionData extensionData = buildBasicExtensionData();
         try {
             int unreadMailCount = new MailRuWebService.UnreadMailCount().get();
             if (unreadMailCount == 0) {
@@ -44,7 +43,7 @@ public class MailRuExtension extends DashClockExtension {
                 extensionData.visible(false);
             } else {
                 extensionData.status(formatQuantityString(R.plurals.unread_mails, unreadMailCount));
-                extensionData.expandedBody(getAccountName());
+                extensionData.expandedBody(getString(R.string.unknown_account));
                 extensionData.clickIntent(createMessagesIntent());
                 extensionData.visible(true);
             }
@@ -57,16 +56,6 @@ public class MailRuExtension extends DashClockExtension {
         return extensionData;
     }
 
-    private String getAccountName() throws MailRuApiException {
-        if (Session.getInstance().getAccountName() == null) {
-            String email = new MailRuWebService.UserInfo().getEmail();
-            Session.getInstance().setAccountName(email).save();
-            return email;
-        } else {
-            return Session.getInstance().getAccountName();
-        }
-    }
-
     private String formatQuantityString(int resId, int quantity) {
         return getResources().getQuantityString(resId, quantity, quantity);
     }
@@ -76,12 +65,16 @@ public class MailRuExtension extends DashClockExtension {
     }
 
     private ExtensionData buildAuthRequiredExtensionData() {
-        ExtensionData extensionData = new ExtensionData().visible(true);
+        ExtensionData extensionData = buildBasicExtensionData();
         extensionData.status(getString(R.string.authorization_needed_status))
                 .expandedBody(getString(R.string.authorization_needed_body))
                 .clickIntent(createLoginIntent());
 
         return extensionData;
+    }
+
+    private ExtensionData buildBasicExtensionData() {
+        return new ExtensionData().visible(true).icon(R.drawable.ic_launcher);
     }
 
     private Intent createLoginIntent() {

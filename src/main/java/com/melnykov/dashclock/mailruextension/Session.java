@@ -69,15 +69,6 @@ public class Session {
         return this;
     }
 
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public Session setAccountName(String accountName) {
-        this.accountName = accountName;
-        return this;
-    }
-
     public synchronized void save() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
         prefs.edit().putString(Constants.KEY_ACCOUNT_NAME, accountName).apply();

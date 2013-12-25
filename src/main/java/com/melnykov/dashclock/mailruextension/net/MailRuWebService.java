@@ -4,15 +4,12 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.Auth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.TreeMap;
 
 public class MailRuWebService {
-
-    private static final String TAG = MailRuWebService.class.getSimpleName();
 
     private static final String BASE_URL = "http://www.appsmail.ru/platform/api";
     // Parameters must be sorted in order to calculate request signature
@@ -67,25 +64,6 @@ public class MailRuWebService {
             String response = sendRequest();
             try {
                 return new JSONObject(response).getInt("count");
-            } catch (JSONException e) {
-                // Cannot recover
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public static class UserInfo extends MailRuWebService {
-
-        public UserInfo() {
-            super("users.getInfo");
-        }
-
-        public String getEmail() throws MailRuApiException {
-            String response = sendRequest();
-            JSONArray jsonArr = null;
-            try {
-                jsonArr = new JSONArray(response);
-                return jsonArr.getJSONObject(0).getString("email");
             } catch (JSONException e) {
                 // Cannot recover
                 throw new RuntimeException(e);

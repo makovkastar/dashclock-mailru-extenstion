@@ -1,7 +1,6 @@
 package com.melnykov.dashclock.mailruextension.ui;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
@@ -9,8 +8,6 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import com.melnykov.dashclock.mailruextension.R;
 import com.melnykov.dashclock.mailruextension.Session;
-import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
-import com.melnykov.dashclock.mailruextension.net.MailRuWebService;
 import com.melnykov.dashclock.mailruextension.util.Auth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 
@@ -55,20 +52,6 @@ public class LoginActivity extends Activity {
                     .setAccessToken(Auth.getAccessToken(url), Auth.getExpiresIn(url))
                     .setRefreshToken(Auth.getRefreshToken(url))
                     .save();
-            // Fetch user info
-            new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        String email = new MailRuWebService.UserInfo().getEmail();
-                        Session.getInstance().setAccountName(email).save();
-                    } catch (MailRuApiException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-            }.execute();
         }
     }
 
