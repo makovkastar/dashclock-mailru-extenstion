@@ -1,4 +1,6 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailruextension.util;
+
+import com.melnykov.dashclock.mailruextension.Constants;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailruextension.util;
 
 public class Constants {
     public static final String APP_ID = "705871";
