@@ -1,10 +1,8 @@
 package com.melnykov.dashclock.mailruextension;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import java.util.Calendar;
+import com.melnykov.dashclock.mailruextension.util.Constants;
 
 public class Session {
 
@@ -12,8 +10,9 @@ public class Session {
     private String accessToken;
     private String refreshToken;
     private int expiresIn;
-
     private long savedAt;
+
+    private boolean isDirty;
 
     private Session(String accessToken, String refreshToken, int expiresIn, long savedAt) {
         this.accessToken = accessToken;
@@ -22,9 +21,9 @@ public class Session {
         this.savedAt = savedAt;
     }
 
-    public static synchronized Session getInstance(Context ctx) {
+    public static synchronized Session getInstance() {
         if (instance == null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
             instance = new Session(prefs.getString(Constants.KEY_ACCESS_TOKEN, null),
                     prefs.getString(Constants.KEY_REFRESH_TOKEN, null),
                     prefs.getInt(Constants.KEY_EXPIRES_IN, 0),
@@ -35,12 +34,24 @@ public class Session {
     }
 
     public boolean isValid() {
-        long now = System.currentTimeMillis() / 1000;
-        return accessToken != null && (now < savedAt + expiresIn);
+        return isAuthorized() && !sessionExpired();
     }
 
-    public Session setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public boolean isAuthorized() {
+        return accessToken != null;
+    }
+
+    private boolean sessionExpired() {
+        long now = System.currentTimeMillis() / 1000;
+        return now > savedAt + expiresIn;
+    }
+
+    public Session setAccessToken(String accessToken, int expiresIn) {
+        if (accessToken != this.accessToken) {
+            this.accessToken = accessToken;
+            this.expiresIn = expiresIn;
+            this.isDirty = true;
+        }
         return this;
     }
 
@@ -57,31 +68,31 @@ public class Session {
         return this;
     }
 
-    public Session setExpiresIn(int expiresIn) {
-        this.expiresIn = expiresIn;
-        return this;
+    public synchronized void save() {
+        if (isDirty) {
+            savedAt = System.currentTimeMillis() / 1000;
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
+            prefs.edit().putString(Constants.KEY_REFRESH_TOKEN, refreshToken)
+                    .putInt(Constants.KEY_EXPIRES_IN, expiresIn)
+                    .putLong(Constants.KEY_SAVED_AT, savedAt)
+                    .putString(Constants.KEY_ACCESS_TOKEN, accessToken)
+                    .apply();
+            isDirty = false;
+        }
     }
 
-    public synchronized void save(Context ctx) {
-        savedAt = Calendar.getInstance().getTimeInMillis() / 1000;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        prefs.edit().putString(Constants.KEY_ACCESS_TOKEN, accessToken)
-                .putString(Constants.KEY_REFRESH_TOKEN, refreshToken)
-                .putInt(Constants.KEY_EXPIRES_IN, expiresIn)
-                .putLong(Constants.KEY_SAVED_AT, savedAt)
-                .apply();
-    }
-
-    public synchronized void destroy(Context ctx) {
+    public synchronized void destroy() {
         this.accessToken = null;
         this.refreshToken = null;
         this.expiresIn = 0;
+        this.savedAt = 0;
         instance = null;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
         prefs.edit().remove(Constants.KEY_ACCESS_TOKEN)
                 .remove(Constants.KEY_REFRESH_TOKEN)
                 .remove(Constants.KEY_EXPIRES_IN)
+                .remove(Constants.KEY_SAVED_AT)
                 .apply();
     }
 }
