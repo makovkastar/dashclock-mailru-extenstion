@@ -48,8 +48,11 @@ public class MailRuExtension extends DashClockExtension {
                 extensionData.clickIntent(createMessagesIntent());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // Hide extension if error occurred
             extensionData.visible(false);
+            if (Constants.DEBUG) {
+                Log.d(TAG, "Cannot build extension data", e);
+            }
         }
 
         return extensionData;

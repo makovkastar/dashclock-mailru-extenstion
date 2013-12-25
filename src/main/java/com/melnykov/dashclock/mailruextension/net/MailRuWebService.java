@@ -1,5 +1,6 @@
 package com.melnykov.dashclock.mailruextension.net;
 
+import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.Auth;
@@ -10,6 +11,8 @@ import org.json.JSONObject;
 import java.util.TreeMap;
 
 public class MailRuWebService {
+
+    private static final String TAG = MailRuWebService.class.getSimpleName();
 
     private static final String BASE_URL = "http://www.appsmail.ru/platform/api";
     // Parameters must be sorted in order to calculate request signature
@@ -24,7 +27,14 @@ public class MailRuWebService {
     }
 
     public String sendRequest() {
-        return HttpRequest.get(BASE_URL, params, true).body();
+        if (Constants.DEBUG) {
+            Log.d(TAG, "Sending GET request");
+        }
+        String response =  HttpRequest.get(BASE_URL, params, true).body();
+        if (Constants.DEBUG) {
+            Log.d(TAG, "Response: " + response);
+        }
+        return response;
     }
 
     public static class UnreadMailCount extends MailRuWebService {
@@ -43,7 +53,9 @@ public class MailRuWebService {
                     unreadMailCount = jsonObj.getInt("count");
                 } catch (JSONException e) {
                     // Ignore
-                    e.printStackTrace();
+                    if (Constants.DEBUG) {
+                        Log.d(TAG, "Cannot parse JSON response", e);
+                    }
                 }
             }
             return unreadMailCount;
