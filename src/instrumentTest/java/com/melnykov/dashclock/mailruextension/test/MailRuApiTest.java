@@ -2,8 +2,8 @@ package com.melnykov.dashclock.mailruextension.test;
 
 import android.test.InstrumentationTestCase;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.melnykov.dashclock.mailruextension.net.MailRuApi;
 import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
-import com.melnykov.dashclock.mailruextension.net.MailRuWebService;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class MailRuWebServiceTest extends InstrumentationTestCase {
+public class MailRuApiTest extends InstrumentationTestCase {
 
     private MockWebServer server = new MockWebServer();
 
@@ -40,7 +40,7 @@ public class MailRuWebServiceTest extends InstrumentationTestCase {
         server.enqueue(new MockResponse().setBody(fileToString(R.raw.ok_response)));
         server.play();
 
-        assertThat(new MailRuWebService.UnreadMailCount().get()).isEqualTo(1024);
+        assertThat(new MailRuApi.UnreadMailCount().get()).isEqualTo(1024);
     }
 
    public void testUnreadMailCountErrorResponse() throws IOException {
@@ -48,7 +48,7 @@ public class MailRuWebServiceTest extends InstrumentationTestCase {
         server.play();
 
         try {
-            new MailRuWebService.UnreadMailCount().get();
+            new MailRuApi.UnreadMailCount().get();
             fail("Error response must throw api exception");
         } catch (MailRuApiException e) {
         }

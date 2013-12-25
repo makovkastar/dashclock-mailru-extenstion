@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
-import com.melnykov.dashclock.mailruextension.net.MailRuWebService;
+import com.melnykov.dashclock.mailruextension.net.MailRuApi;
 import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 import com.melnykov.dashclock.mailruextension.util.NetworkUtil;
@@ -37,7 +37,7 @@ public class MailRuExtension extends DashClockExtension {
     private ExtensionData buildActualExtensionData() {
         ExtensionData extensionData = buildBasicExtensionData();
         try {
-            int unreadMailCount = new MailRuWebService.UnreadMailCount().get();
+            int unreadMailCount = new MailRuApi.UnreadMailCount().get();
             if (unreadMailCount == 0) {
                 // Hide extension if no new messages and no notifications
                 extensionData.visible(false);
