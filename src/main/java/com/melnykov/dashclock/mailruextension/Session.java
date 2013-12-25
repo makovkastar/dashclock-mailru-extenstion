@@ -11,7 +11,6 @@ public class Session {
     private String refreshToken;
     private int expiresIn;
     private long savedAt;
-    private String accountName;
 
     private boolean isDirty;
 
@@ -70,9 +69,8 @@ public class Session {
     }
 
     public synchronized void save() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
-        prefs.edit().putString(Constants.KEY_ACCOUNT_NAME, accountName).apply();
         if (isDirty) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
             savedAt = System.currentTimeMillis() / 1000;
             prefs.edit().putString(Constants.KEY_REFRESH_TOKEN, refreshToken)
                     .putString(Constants.KEY_ACCESS_TOKEN, accessToken)
