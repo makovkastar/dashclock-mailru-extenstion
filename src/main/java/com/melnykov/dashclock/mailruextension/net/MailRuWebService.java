@@ -4,6 +4,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.Auth;
 import com.melnykov.dashclock.mailruextension.util.Constants;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +35,10 @@ public class MailRuWebService {
     }
 
     private boolean hasError(String response) {
+        // Check for JSON array
+        if(response.startsWith("[")) {
+            return false;
+        }
         try {
             return new JSONObject(response).has("error");
         } catch (JSONException e) {
@@ -62,6 +67,25 @@ public class MailRuWebService {
             String response = sendRequest();
             try {
                 return new JSONObject(response).getInt("count");
+            } catch (JSONException e) {
+                // Cannot recover
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static class UserInfo extends MailRuWebService {
+
+        public UserInfo() {
+            super("users.getInfo");
+        }
+
+        public String getEmail() throws MailRuApiException {
+            String response = sendRequest();
+            JSONArray jsonArr = null;
+            try {
+                jsonArr = new JSONArray(response);
+                return jsonArr.getJSONObject(0).getString("email");
             } catch (JSONException e) {
                 // Cannot recover
                 throw new RuntimeException(e);

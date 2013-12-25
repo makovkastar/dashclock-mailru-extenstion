@@ -11,6 +11,7 @@ public class Session {
     private String refreshToken;
     private int expiresIn;
     private long savedAt;
+    private String accountName;
 
     private boolean isDirty;
 
@@ -68,14 +69,24 @@ public class Session {
         return this;
     }
 
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public Session setAccountName(String accountName) {
+        this.accountName = accountName;
+        return this;
+    }
+
     public synchronized void save() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
+        prefs.edit().putString(Constants.KEY_ACCOUNT_NAME, accountName).apply();
         if (isDirty) {
             savedAt = System.currentTimeMillis() / 1000;
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MailRuExtensionApplication.getContext());
             prefs.edit().putString(Constants.KEY_REFRESH_TOKEN, refreshToken)
+                    .putString(Constants.KEY_ACCESS_TOKEN, accessToken)
                     .putInt(Constants.KEY_EXPIRES_IN, expiresIn)
                     .putLong(Constants.KEY_SAVED_AT, savedAt)
-                    .putString(Constants.KEY_ACCESS_TOKEN, accessToken)
                     .apply();
             isDirty = false;
         }
