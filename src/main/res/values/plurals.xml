@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="unread_mails">
+        <item quantity="zero">%d unread mails</item>
+        <item quantity="one">%d unread mail</item>
+        <item quantity="many">%d unread mails</item>
+        <item quantity="other">%d unread mails</item>
+    </plurals>
+</resources>

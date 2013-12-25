@@ -4,6 +4,8 @@
     <string name="extension_description">Displays an unread count of Mail.ru emails.</string>
     <string name="title_settings">DashClock Mail.ru extension settings</string>
     <string name="title_login">Mail.ru login</string>
+    <string name="authorization_needed_status">Mail.ru authorization needed.</string>
+    <string name="authorization_needed_body">Please go through the Mail.ru authorization process.</string>
 
     <!-- Toasts -->
     <string name="toast_login_success">You have been successfully logged in</string>

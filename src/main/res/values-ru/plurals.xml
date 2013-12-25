@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="unread_mails">
+        <item quantity="one">%d непрочитанное письмо</item>
+        <item quantity="few">%d непроитанных писем</item>
+        <item quantity="many">%d непрочитанных писем</item>
+    </plurals>
+</resources>
