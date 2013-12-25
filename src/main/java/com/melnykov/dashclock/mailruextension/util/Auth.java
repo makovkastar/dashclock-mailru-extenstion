@@ -53,7 +53,7 @@ public class Auth {
     }
 
     private static String getMD5(String string) {
-        String md5 = null;
+        String md5;
         try {
             byte[] bytesOfMessage = string.getBytes("UTF-8");
             MessageDigest md = MessageDigest.getInstance("MD5");
