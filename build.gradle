@@ -21,6 +21,7 @@ dependencies {
 
     instrumentTestCompile 'junit:junit:4.8.1'
     instrumentTestCompile 'com.squareup:fest-android:1.0.+'
+    instrumentTestCompile 'com.squareup.okhttp:mockwebserver:1.2.+'
 }
 
 android {
