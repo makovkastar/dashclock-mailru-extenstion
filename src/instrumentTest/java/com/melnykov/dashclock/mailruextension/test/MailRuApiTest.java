@@ -37,7 +37,7 @@ public class MailRuApiTest extends InstrumentationTestCase {
     }
 
     public void testUnreadMailCountOkResponse() throws Exception {
-        server.enqueue(new MockResponse().setBody(fileToString(R.raw.ok_response)));
+        server.enqueue(new MockResponse().setBody(fileToString(R.raw.unread_mail_count_ok_response)));
         server.play();
 
         assertThat(new MailRuApi.UnreadMailCount().get()).isEqualTo(1024);
