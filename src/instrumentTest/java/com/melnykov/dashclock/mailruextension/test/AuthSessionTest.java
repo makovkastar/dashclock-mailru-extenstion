@@ -2,79 +2,89 @@ package com.melnykov.dashclock.mailruextension.test;
 
 import android.os.SystemClock;
 import android.test.AndroidTestCase;
-import com.melnykov.dashclock.mailruextension.Auth;
-import com.melnykov.dashclock.mailruextension.Constants;
+import com.melnykov.dashclock.mailruextension.util.Auth;
+import com.melnykov.dashclock.mailruextension.util.Constants;
 import com.melnykov.dashclock.mailruextension.Session;
+
+import java.util.TreeMap;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class AuthSessionTest extends AndroidTestCase {
 
-    private static final String ACCESS_TOKEN = "b6442ed12223a7d0b459916b8ea03ce5";
-    private static final String REFRESH_TOKEN = "b45529ac9bf6b32be761975c043ef9e3";
-    private static final int EXPIRES_IN = 3;
-    private static final String TOKEN_TYPE = "bearer";
+    private static final String TEST_ACCESS_TOKEN = "b6442ed12223a7d0b459916b8ea03ce5";
+    private static final String TEST_REFRESH_TOKEN = "b45529ac9bf6b32be761975c043ef9e3";
+    private static final int TEST_EXPIRES_IN = 3;
+    private static final String TEST_TOKEN_TYPE = "bearer";
 
     private static final String REDIRECT_URL = Constants.REDIRECT_URL +
-            "#access_token=" + ACCESS_TOKEN +
-            "&refresh_token=" + REFRESH_TOKEN +
-            "&expires_in=" + EXPIRES_IN +
-            "&token_type=" + TOKEN_TYPE;
+            "#access_token=" + TEST_ACCESS_TOKEN +
+            "&refresh_token=" + TEST_REFRESH_TOKEN +
+            "&expires_in=" + TEST_EXPIRES_IN +
+            "&token_type=" + TEST_TOKEN_TYPE;
 
     public void testParseRedirectUrl() {
-        assertThat(Auth.getAccessToken(REDIRECT_URL)).isEqualTo(ACCESS_TOKEN);
-        assertThat(Auth.getExpiresIn(REDIRECT_URL)).isEqualTo(EXPIRES_IN);
-        assertThat(Auth.getRefreshToken(REDIRECT_URL)).isEqualTo(REFRESH_TOKEN);
+        assertThat(Auth.getAccessToken(REDIRECT_URL)).isEqualTo(TEST_ACCESS_TOKEN);
+        assertThat(Auth.getExpiresIn(REDIRECT_URL)).isEqualTo(TEST_EXPIRES_IN);
+        assertThat(Auth.getRefreshToken(REDIRECT_URL)).isEqualTo(TEST_REFRESH_TOKEN);
     }
 
     public void testSessionInstance() {
-        assertThat(Session.getInstance(getContext())).isNotNull();
-        assertThat(Session.getInstance(getContext())).isEqualTo(Session.getInstance(getContext()));
+        assertThat(Session.getInstance()).isNotNull();
+        assertThat(Session.getInstance()).isEqualTo(Session.getInstance());
     }
 
     public void testSaveDestroySession() {
         saveValidSession();
-        assertThat(Session.getInstance(getContext()).isValid()).isTrue();
+        assertThat(Session.getInstance().isValid()).isTrue();
 
-        Session oldSession = Session.getInstance(getContext());
-        oldSession.destroy(getContext());
+        Session oldSession = Session.getInstance();
+        oldSession.destroy();
 
         assertThat(oldSession.isValid()).isFalse();
-        assertThat(Session.getInstance(getContext()).isValid()).isFalse();
-        assertThat(Session.getInstance(getContext())).isNotSameAs(oldSession);
+        assertThat(Session.getInstance().isValid()).isFalse();
+        assertThat(Session.getInstance()).isNotSameAs(oldSession);
     }
 
     public void testSessionData() {
         saveValidSession();
 
-        assertThat(Session.getInstance(getContext()).getAccessToken()).isEqualTo(ACCESS_TOKEN);
-        assertThat(Session.getInstance(getContext()).getRefreshToken()).isEqualTo(REFRESH_TOKEN);
+        assertThat(Session.getInstance().getAccessToken()).isEqualTo(TEST_ACCESS_TOKEN);
+        assertThat(Session.getInstance().getRefreshToken()).isEqualTo(TEST_REFRESH_TOKEN);
     }
 
     public void testSessionExpiration() {
-        saveExpiredSession();
-        assertThat(Session.getInstance(getContext()).isValid()).isFalse();
-
         // Save valid session
-        saveSession(EXPIRES_IN);
-        assertThat(Session.getInstance(getContext()).isValid()).isTrue();
+        saveValidSession();
+        assertThat(Session.getInstance().isValid()).isTrue();
         // Wait until session expires
-        SystemClock.sleep((EXPIRES_IN * 2) * 1000);
-        assertThat(Session.getInstance(getContext()).isValid()).isFalse();
+        SystemClock.sleep((TEST_EXPIRES_IN * 2) * 1000);
+        assertThat(Session.getInstance().isValid()).isFalse();
+    }
+
+    public void testCalculateSig() {
+        // Example from http://api.mail.ru/docs/guides/restapi/#server
+        // Request: http://www.appsmail.ru/platform/api?method=friends.get&app_id=423004&session_key=be6ef89965d58e56dec21acb9b62bdaa&secure=1
+        // Secret key: 3dad9cbf9baaa0360c0f2ba372d25716
+        // sig = md5(app_id=423004method=friends.getsecure=1session_key=be6ef89965d58e56dec21acb9b62bdaa3dad9cbf9baaa0360c0f2ba372d25716)
+        // = 4a05af66f80da18b308fa7e536912bae
+        final String testSecretKey = "3dad9cbf9baaa0360c0f2ba372d25716";
+        final String expectedSig = "4a05af66f80da18b308fa7e536912bae";
+
+        TreeMap<String, String> params = new TreeMap<String, String>();
+        params.put(Constants.REQ_KEY_METHOD, "friends.get");
+        params.put(Constants.REQ_KEY_APP_ID, "423004");
+        params.put(Constants.REQ_KEY_SESSION_KEY, "be6ef89965d58e56dec21acb9b62bdaa");
+        params.put(Constants.REQ_KEY_SECURE, "1");
+
+        String sig = Auth.calculateSignature(params, testSecretKey);
+        assertThat(sig).isEqualTo(expectedSig);
     }
 
     private void saveValidSession() {
-        saveSession(EXPIRES_IN);
+        Session.getInstance().setAccessToken(TEST_ACCESS_TOKEN, TEST_EXPIRES_IN)
+                .setRefreshToken(TEST_REFRESH_TOKEN)
+                .save();
     }
 
-    private void saveExpiredSession() {
-        saveSession(0);
-    }
-
-    private void saveSession(int expiresIn) {
-        Session.getInstance(getContext()).setAccessToken(ACCESS_TOKEN)
-                .setRefreshToken(REFRESH_TOKEN)
-                .setExpiresIn(expiresIn)
-                .save(getContext());
-    }
 }
