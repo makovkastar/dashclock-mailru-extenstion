@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 public class MailRuApi {
 
-    private static final String BASE_URL = "http://www.appsmail.ru/platform/api";
     // Parameters must be sorted in order to calculate request signature
     private final TreeMap<String, String> params = new TreeMap<String, String>();
 
@@ -23,7 +22,7 @@ public class MailRuApi {
     }
 
     public String sendRequest() throws MailRuApiException {
-        String response = HttpRequest.get(BASE_URL, params, true).body();
+        String response = HttpRequest.get(Constants.API_URL, params, true).body();
         if (hasError(response)) {
             throw new MailRuApiException(getErrorCode(response));
         }
