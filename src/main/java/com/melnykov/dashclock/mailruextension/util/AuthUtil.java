@@ -1,6 +1,6 @@
-package com.melnykov.dashclock.mailruextension.net;
+package com.melnykov.dashclock.mailruextension.util;
 
-import com.melnykov.dashclock.mailruextension.util.Constants;
+import com.github.kevinsawicki.http.HttpRequest;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MailRuAuth {
+public class AuthUtil {
 
     public static String getAuthorizationUrl(String appId) {
         return new StringBuilder(Constants.AUTH_URL)
@@ -36,6 +36,16 @@ public class MailRuAuth {
 
     public static String getRefreshToken(String url) {
         return extractPattern(url, "refresh_token=(.*?)(&|$)", 1);
+    }
+
+    public static void updateAccessToken(String refreshToken) {
+        TreeMap<String, String> params = new TreeMap<String, String>();
+        params.put(Constants.REQ_KEY_GRANT_TYPE, "refresh_token");
+        params.put(Constants.REQ_KEY_CLIENT_ID, Constants.APP_ID);
+        params.put(Constants.REQ_KEY_CLIENT_SECRET, Constants.SECRET_KEY);
+        params.put(Constants.REQ_KEY_REFRESH_TOKEN, refreshToken);
+
+        String response = HttpRequest.post(Constants.REFRESH_TOKEN_URL, params, true).body();
     }
 
     public static String calculateSignature(TreeMap<String, String> params, String secretKey) {

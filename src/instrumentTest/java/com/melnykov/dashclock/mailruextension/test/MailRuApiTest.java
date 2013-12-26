@@ -1,7 +1,9 @@
 package com.melnykov.dashclock.mailruextension.test;
 
+import android.os.SystemClock;
 import android.test.InstrumentationTestCase;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.net.MailRuApi;
 import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
 import com.squareup.okhttp.mockwebserver.MockResponse;
@@ -20,7 +22,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 public class MailRuApiTest extends InstrumentationTestCase {
 
-    private MockWebServer server = new MockWebServer();
+    protected MockWebServer server = new MockWebServer();
 
     public void setUp() {
         HttpRequest.setConnectionFactory(new HttpRequest.ConnectionFactory() {
@@ -54,7 +56,25 @@ public class MailRuApiTest extends InstrumentationTestCase {
         }
     }
 
-    private String fileToString(int resourceId) throws IOException {
+    public void testRefreshAccessToken() throws Exception {
+        server.enqueue(new MockResponse().setBody(fileToString(R.raw.access_token_refresh_ok_response)));
+        server.play();
+
+        Session.getInstance().setAccessToken(TestConstants.ACCESS_TOKEN, TestConstants.EXPIRES_IN)
+                .setRefreshToken(TestConstants.REFRESH_TOKEN)
+                .save();
+
+        assertThat(Session.getInstance().isValid()).isTrue();
+        // Wait until session expires
+        SystemClock.sleep((TestConstants.EXPIRES_IN * 2) * 1000);
+        assertThat(Session.getInstance().isValid()).isFalse();
+        // Refresh access token
+        new MailRuApi.AccessToken().refresh(Session.getInstance().getRefreshToken()).save();
+        assertThat(Session.getInstance().getAccessToken()).isEqualTo(TestConstants.REFRESHED_ACCESS_TOKEN);
+        assertThat(Session.getInstance().isValid()).isTrue();
+    }
+
+    protected String fileToString(int resourceId) throws IOException {
         InputStream is = getInstrumentation().getContext().getResources().openRawResource(resourceId);
         return convertInputStreamToString(is);
     }
