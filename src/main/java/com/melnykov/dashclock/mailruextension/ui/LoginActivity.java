@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import com.melnykov.dashclock.mailruextension.R;
 import com.melnykov.dashclock.mailruextension.Session;
-import com.melnykov.dashclock.mailruextension.net.MailRuAuth;
+import com.melnykov.dashclock.mailruextension.util.AuthUtil;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 
 public class LoginActivity extends Activity {
@@ -22,7 +22,7 @@ public class LoginActivity extends Activity {
 
         final WebView wvLogin = (WebView) findViewById(R.id.wv_login);
         wvLogin.setWebViewClient(new VkWebViewClient());
-        wvLogin.loadUrl(MailRuAuth.getAuthorizationUrl(Constants.APP_ID));
+        wvLogin.loadUrl(AuthUtil.getAuthorizationUrl(Constants.APP_ID));
     }
 
     private class VkWebViewClient extends WebViewClient {
@@ -49,8 +49,8 @@ public class LoginActivity extends Activity {
 
         private void saveSessionData(String url) {
             Session.getInstance()
-                    .setAccessToken(MailRuAuth.getAccessToken(url), MailRuAuth.getExpiresIn(url))
-                    .setRefreshToken(MailRuAuth.getRefreshToken(url))
+                    .setAccessToken(AuthUtil.getAccessToken(url), AuthUtil.getExpiresIn(url))
+                    .setRefreshToken(AuthUtil.getRefreshToken(url))
                     .save();
         }
     }

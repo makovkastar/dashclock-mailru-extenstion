@@ -38,16 +38,6 @@ public class AuthUtil {
         return extractPattern(url, "refresh_token=(.*?)(&|$)", 1);
     }
 
-    public static void updateAccessToken(String refreshToken) {
-        TreeMap<String, String> params = new TreeMap<String, String>();
-        params.put(Constants.REQ_KEY_GRANT_TYPE, "refresh_token");
-        params.put(Constants.REQ_KEY_CLIENT_ID, Constants.APP_ID);
-        params.put(Constants.REQ_KEY_CLIENT_SECRET, Constants.SECRET_KEY);
-        params.put(Constants.REQ_KEY_REFRESH_TOKEN, refreshToken);
-
-        String response = HttpRequest.post(Constants.REFRESH_TOKEN_URL, params, true).body();
-    }
-
     public static String calculateSignature(TreeMap<String, String> params, String secretKey) {
         StringBuilder sig = new StringBuilder();
         String paramStr = getParamsString(params);

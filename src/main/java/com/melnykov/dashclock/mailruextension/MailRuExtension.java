@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.melnykov.dashclock.mailruextension.net.MailRuApi;
+import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
 import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 import com.melnykov.dashclock.mailruextension.util.NetworkUtil;
@@ -37,6 +38,9 @@ public class MailRuExtension extends DashClockExtension {
     private ExtensionData buildActualExtensionData() {
         ExtensionData extensionData = buildBasicExtensionData();
         try {
+            if (!Session.getInstance().isValid()) {
+                refreshAccessToken();
+            }
             int unreadMailCount = new MailRuApi.UnreadMailCount().get();
             if (unreadMailCount == 0) {
                 // Hide extension if no new messages and no notifications
@@ -54,6 +58,11 @@ public class MailRuExtension extends DashClockExtension {
         }
 
         return extensionData;
+    }
+
+    private void refreshAccessToken() throws MailRuApiException {
+        Session session = new MailRuApi.AccessToken().refresh(Session.getInstance().getRefreshToken());
+        session.save();
     }
 
     private String formatQuantityString(int resId, int quantity) {
