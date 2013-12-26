@@ -37,7 +37,9 @@ public class MailRuApi {
     }
 
     protected String sendPostRequest(String baseUrl) throws MailRuApiException {
+        Timber.d("Sending POST request on %s with params: %s", baseUrl, params.toString());
         String response = HttpRequest.post(baseUrl, params, true).body();
+        Timber.d("Response: %s", response);
         if (hasError(response)) {
             throw new MailRuApiException(getErrorCode(response));
         }
