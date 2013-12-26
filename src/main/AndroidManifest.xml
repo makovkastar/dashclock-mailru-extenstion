@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.melnykov.dashclock.mailruextension"
+          package="com.melnykov.dashclock.mailru"
           android:versionCode="1"
           android:versionName="1.0">
 
@@ -10,10 +10,10 @@
 
     <application android:label="@string/app_name"
                  android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
-                 android:name=".MailRuExtensionApplication"
+                 android:name="com.melnykov.dashclock.mailru.MailRuExtensionApplication"
                  android:icon="@drawable/ic_launcher">
 
-        <service android:name="com.melnykov.dashclock.mailruextension.MailRuExtension"
+        <service android:name="com.melnykov.dashclock.mailru.MailRuExtension"
                  android:label="@string/extension_title"
                  android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>
@@ -23,14 +23,14 @@
             <meta-data android:name="description"
                        android:value="@string/extension_description"/>
             <meta-data android:name="settingsActivity"
-                       android:value=".SettingsActivity"/>
+                       android:value=".ui.SettingsActivity"/>
         </service>
 
-        <activity android:name=".ui.SettingsActivity"
+        <activity android:name="com.melnykov.dashclock.mailru.ui.SettingsActivity"
                   android:label="@string/title_settings"
                   android:exported="true" />
 
-        <activity android:name=".ui.LoginActivity"
+        <activity android:name="com.melnykov.dashclock.mailru.ui.LoginActivity"
                   android:excludeFromRecents="true"
                   android:label="@string/title_login"
                   android:exported="true"/>

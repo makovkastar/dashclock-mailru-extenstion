@@ -1,13 +1,13 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailru;
 
 import android.content.ComponentName;
 import android.content.Intent;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
-import com.melnykov.dashclock.mailruextension.net.MailRuApi;
-import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
-import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
-import com.melnykov.dashclock.mailruextension.util.NetworkUtil;
+import com.melnykov.dashclock.mailru.net.MailRuApi;
+import com.melnykov.dashclock.mailru.net.MailRuApiException;
+import com.melnykov.dashclock.mailru.ui.LoginActivity;
+import com.melnykov.dashclock.mailru.util.NetworkUtil;
 import timber.log.Timber;
 
 public class MailRuExtension extends DashClockExtension {
@@ -47,7 +47,7 @@ public class MailRuExtension extends DashClockExtension {
                 extensionData.visible(false);
             } else {
                 extensionData.status(formatQuantityString(R.plurals.unread_mails, unreadMailCount));
-                extensionData.expandedBody(getString(R.string.unknown_account));
+                extensionData.expandedBody(getString(R.string.extension_title));
                 extensionData.clickIntent(createMessagesIntent());
                 extensionData.visible(true);
             }

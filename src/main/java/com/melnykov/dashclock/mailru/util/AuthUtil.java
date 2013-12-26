@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension.util;
+package com.melnykov.dashclock.mailru.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

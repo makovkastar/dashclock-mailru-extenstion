@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension.net;
+package com.melnykov.dashclock.mailru.net;
 
 public class MailRuApiException extends Exception {
 

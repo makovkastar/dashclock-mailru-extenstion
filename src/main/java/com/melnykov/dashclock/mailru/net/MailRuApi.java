@@ -1,9 +1,9 @@
-package com.melnykov.dashclock.mailruextension.net;
+package com.melnykov.dashclock.mailru.net;
 
 import com.github.kevinsawicki.http.HttpRequest;
-import com.melnykov.dashclock.mailruextension.Session;
-import com.melnykov.dashclock.mailruextension.util.AuthUtil;
-import com.melnykov.dashclock.mailruextension.util.Constants;
+import com.melnykov.dashclock.mailru.Session;
+import com.melnykov.dashclock.mailru.util.AuthUtil;
+import com.melnykov.dashclock.mailru.util.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 import timber.log.Timber;

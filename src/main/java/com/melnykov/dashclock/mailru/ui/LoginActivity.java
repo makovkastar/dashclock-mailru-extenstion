@@ -1,14 +1,14 @@
-package com.melnykov.dashclock.mailruextension.ui;
+package com.melnykov.dashclock.mailru.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import com.melnykov.dashclock.mailruextension.R;
-import com.melnykov.dashclock.mailruextension.Session;
-import com.melnykov.dashclock.mailruextension.util.AuthUtil;
-import com.melnykov.dashclock.mailruextension.util.Constants;
+import com.melnykov.dashclock.mailru.R;
+import com.melnykov.dashclock.mailru.Session;
+import com.melnykov.dashclock.mailru.util.AuthUtil;
+import com.melnykov.dashclock.mailru.util.Constants;
 import timber.log.Timber;
 
 public class LoginActivity extends Activity {

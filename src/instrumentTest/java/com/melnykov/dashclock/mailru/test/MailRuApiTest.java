@@ -1,11 +1,11 @@
-package com.melnykov.dashclock.mailruextension.test;
+package com.melnykov.dashclock.mailru.test;
 
 import android.os.SystemClock;
 import android.test.InstrumentationTestCase;
 import com.github.kevinsawicki.http.HttpRequest;
-import com.melnykov.dashclock.mailruextension.Session;
-import com.melnykov.dashclock.mailruextension.net.MailRuApi;
-import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
+import com.melnykov.dashclock.mailru.Session;
+import com.melnykov.dashclock.mailru.net.MailRuApi;
+import com.melnykov.dashclock.mailru.net.MailRuApiException;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 

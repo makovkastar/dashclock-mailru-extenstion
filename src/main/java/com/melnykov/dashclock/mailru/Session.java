@@ -1,8 +1,8 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailru;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.melnykov.dashclock.mailruextension.util.Constants;
+import com.melnykov.dashclock.mailru.util.Constants;
 
 public class Session {
 

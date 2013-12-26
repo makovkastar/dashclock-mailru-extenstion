@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension.test;
+package com.melnykov.dashclock.mailru.test;
 
 public class TestConstants {
     public static final String ACCESS_TOKEN = "b6442ed12223a7d0b459916b8ea03ce5";

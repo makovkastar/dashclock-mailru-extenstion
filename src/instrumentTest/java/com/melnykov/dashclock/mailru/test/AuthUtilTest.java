@@ -1,8 +1,8 @@
-package com.melnykov.dashclock.mailruextension.test;
+package com.melnykov.dashclock.mailru.test;
 
 import android.test.AndroidTestCase;
-import com.melnykov.dashclock.mailruextension.util.AuthUtil;
-import com.melnykov.dashclock.mailruextension.util.Constants;
+import com.melnykov.dashclock.mailru.util.AuthUtil;
+import com.melnykov.dashclock.mailru.util.Constants;
 
 import java.util.TreeMap;
 

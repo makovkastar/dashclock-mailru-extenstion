@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension;
+package com.melnykov.dashclock.mailru;
 
 import android.app.Application;
 import android.content.Context;

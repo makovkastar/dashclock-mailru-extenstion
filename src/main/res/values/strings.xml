@@ -1,14 +1,23 @@
 <resources>
-    <string name="app_name">DashClock Mail.ru Extension</string>
-    <string name="extension_title">Mail.ru</string>
-    <string name="extension_description">Displays an unread count of Mail.ru emails.</string>
-    <string name="title_settings">DashClock Mail.ru extension settings</string>
-    <string name="title_login">Mail.ru login</string>
+    <string name="app_name">DashClock Mail.Ru Extension</string>
+    <string name="extension_title">Mail.Ru</string>
+    <string name="extension_description">Displays an unread count of Mail.Ru emails.</string>
+    <string name="title_settings">DashClock Mail.Ru extension settings</string>
+    <string name="title_login">Mail.Ru login</string>
     <string name="authorization_needed_status">Mail.ru authorization needed.</string>
-    <string name="authorization_needed_body">Please go through the Mail.ru authorization process.</string>
+    <string name="authorization_needed_body">Please go through the Mail.Ru authorization process.</string>
 
     <!-- Toasts -->
     <string name="toast_login_success">You have been successfully logged in</string>
     <string name="toast_login_fail">Failed to login</string>
-    <string name="unknown_account">Mail.ru</string>
+
+    <!-- Preferences -->
+    <string name="key_log_in">log_in</string>
+    <string name="key_rate_app">rate_app</string>
+
+    <string name="pref_category_title_feedback">Feedback</string>
+    <string name="pref_summary_log_in">Log in to Mail.Ru account</string>
+    <string name="pref_title_log_in">Log in</string>
+    <string name="pref_summary_rate_app">Rate the app</string>
+    <string name="pref_title_rate_app">Like Mail.Ru Extension?</string>
 </resources>

@@ -1,7 +1,7 @@
-package com.melnykov.dashclock.mailruextension.test;
+package com.melnykov.dashclock.mailru.test;
 
 import android.test.InstrumentationTestCase;
-import com.melnykov.dashclock.mailruextension.Session;
+import com.melnykov.dashclock.mailru.Session;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 

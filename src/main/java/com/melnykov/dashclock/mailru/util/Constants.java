@@ -1,4 +1,4 @@
-package com.melnykov.dashclock.mailruextension.util;
+package com.melnykov.dashclock.mailru.util;
 
 public class Constants {
     public static final String API_URL = "http://www.appsmail.ru/platform/api";
@@ -28,4 +28,6 @@ public class Constants {
     public static final String KEY_REFRESH_TOKEN = "refresh_token";
     public static final String KEY_EXPIRES_IN = "expires_in";
     public static final String KEY_SAVED_AT = "saved_at";
+
+    public static final String MARKET_URI = "market://details?id=com.melnykov.dashclock.mailru";
 }
