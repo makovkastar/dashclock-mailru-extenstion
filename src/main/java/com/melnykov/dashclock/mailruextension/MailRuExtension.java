@@ -53,7 +53,7 @@ public class MailRuExtension extends DashClockExtension {
         } catch (Exception e) {
             // Hide extension if error occurred
             extensionData.visible(false);
-            Timber.e("Cannot build extension data.", e);
+            Timber.e(e, "Cannot build extension data.");
         }
 
         return extensionData;
