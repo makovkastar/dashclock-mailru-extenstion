@@ -1,5 +1,6 @@
 package com.melnykov.dashclock.mailruextension;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
@@ -69,7 +70,9 @@ public class MailRuExtension extends DashClockExtension {
     }
 
     private Intent createMessagesIntent() {
-        return null;
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("ru.mail.mailapp", "ru.mail.ui.SlideStackActivity"));
+        return intent;
     }
 
     private ExtensionData buildAuthRequiredExtensionData() {
