@@ -6,6 +6,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.melnykov.dashclock.mailru.Session;
 import com.melnykov.dashclock.mailru.net.MailRuApi;
 import com.melnykov.dashclock.mailru.net.MailRuApiException;
+import com.melnykov.dashclock.mailruextension.test.R;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
