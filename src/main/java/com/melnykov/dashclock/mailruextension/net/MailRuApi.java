@@ -6,6 +6,7 @@ import com.melnykov.dashclock.mailruextension.util.AuthUtil;
 import com.melnykov.dashclock.mailruextension.util.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
+import timber.log.Timber;
 
 import java.util.TreeMap;
 
@@ -26,7 +27,9 @@ public class MailRuApi {
     }
 
     protected String sendGetRequest(String baseUrl) throws MailRuApiException {
+        Timber.d("Sending GET request on %s with params: %s", baseUrl, params.toString());
         String response = HttpRequest.get(baseUrl, params, true).body();
+        Timber.d("Response: %s", response);
         if (hasError(response)) {
             throw new MailRuApiException(getErrorCode(response));
         }

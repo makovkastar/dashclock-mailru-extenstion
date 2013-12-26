@@ -1,7 +1,5 @@
 package com.melnykov.dashclock.mailruextension.util;
 
-import com.github.kevinsawicki.http.HttpRequest;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -2,7 +2,6 @@ package com.melnykov.dashclock.mailruextension.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -10,6 +9,7 @@ import com.melnykov.dashclock.mailruextension.R;
 import com.melnykov.dashclock.mailruextension.Session;
 import com.melnykov.dashclock.mailruextension.util.AuthUtil;
 import com.melnykov.dashclock.mailruextension.util.Constants;
+import timber.log.Timber;
 
 public class LoginActivity extends Activity {
 
@@ -29,9 +29,7 @@ public class LoginActivity extends Activity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             boolean result = true;
             if (url != null && url.startsWith(Constants.REDIRECT_URL)) {
-                if (Constants.DEBUG) {
-                    Log.v(TAG, "Redirect url : " + url);
-                }
+                Timber.d("Redirect url: %s", url);
 
                 if (url.contains("error")) {
                     showFailToast();

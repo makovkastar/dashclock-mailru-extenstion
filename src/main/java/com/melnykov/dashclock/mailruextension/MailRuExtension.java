@@ -1,18 +1,15 @@
 package com.melnykov.dashclock.mailruextension;
 
 import android.content.Intent;
-import android.util.Log;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import com.melnykov.dashclock.mailruextension.net.MailRuApi;
 import com.melnykov.dashclock.mailruextension.net.MailRuApiException;
 import com.melnykov.dashclock.mailruextension.ui.LoginActivity;
-import com.melnykov.dashclock.mailruextension.util.Constants;
 import com.melnykov.dashclock.mailruextension.util.NetworkUtil;
+import timber.log.Timber;
 
 public class MailRuExtension extends DashClockExtension {
-
-    private static final String TAG = MailRuExtension.class.getSimpleName();
 
     @Override
     protected void onInitialize(boolean isReconnect) {
@@ -22,13 +19,14 @@ public class MailRuExtension extends DashClockExtension {
 
     @Override
     protected void onUpdateData(int reason) {
-        if (Constants.DEBUG) {
-            Log.d(TAG, "Update data request. Reason: " + reason);
-        }
+        Timber.d("Update data request. Reason: %d.", reason);
 
         if (Session.getInstance().isAuthorized()) {
             if (NetworkUtil.hasInternetConnection(getApplicationContext())) {
                 publishUpdate(buildActualExtensionData());
+            } else {
+                // Don't touch extension if there's not internet connection
+                Timber.d("No internet connection. Skipping an update.");
             }
         } else {
             publishUpdate(buildAuthRequiredExtensionData());
@@ -39,6 +37,7 @@ public class MailRuExtension extends DashClockExtension {
         ExtensionData extensionData = buildBasicExtensionData();
         try {
             if (!Session.getInstance().isValid()) {
+                Timber.d("Session expired. Refreshing access token...");
                 refreshAccessToken();
             }
             int unreadMailCount = new MailRuApi.UnreadMailCount().get();
@@ -54,7 +53,7 @@ public class MailRuExtension extends DashClockExtension {
         } catch (Exception e) {
             // Hide extension if error occurred
             extensionData.visible(false);
-            if (Constants.DEBUG) { Log.d(TAG, "Cannot build extension data", e); }
+            Timber.e("Cannot build extension data.", e);
         }
 
         return extensionData;
