@@ -5,7 +5,7 @@ public class Constants {
     public static final String APP_ID = "705871";
     public static final String AUTH_URL = "https://connect.mail.ru/oauth/authorize";
     public static final String REDIRECT_URL = "http://connect.mail.ru/oauth/success";
-    public static final String REFRESH_TOKEN_URL = "http://www.appsmail.ru//oauth/token";
+    public static final String REFRESH_TOKEN_URL = "https://www.appsmail.ru/oauth/token";
     public static final String SECRET_KEY = "";
 
     /**
