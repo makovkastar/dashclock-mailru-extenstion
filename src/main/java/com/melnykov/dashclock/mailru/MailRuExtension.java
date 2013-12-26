@@ -85,7 +85,7 @@ public class MailRuExtension extends DashClockExtension {
     }
 
     private ExtensionData buildBasicExtensionData() {
-        return new ExtensionData().visible(true).icon(R.drawable.ic_launcher);
+        return new ExtensionData().visible(true).icon(R.drawable.ic_extension);
     }
 
     private Intent createLoginIntent() {

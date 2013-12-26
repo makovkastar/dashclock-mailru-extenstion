@@ -15,6 +15,7 @@
 
         <service android:name="com.melnykov.dashclock.mailru.MailRuExtension"
                  android:label="@string/extension_title"
+                 android:icon="@drawable/ic_extension"
                  android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>
                 <action android:name="com.google.android.apps.dashclock.Extension"/>
