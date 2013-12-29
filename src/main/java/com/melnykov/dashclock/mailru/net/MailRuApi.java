@@ -46,10 +46,14 @@ public class MailRuApi {
         return response;
     }
 
-    protected boolean hasError(String response) {
+    protected boolean hasError(String response) throws MailRuApiException {
         // Check for JSON array
         if(response.startsWith("[")) {
             return false;
+        }
+        // Check for HTML
+        if (response.startsWith("<")) {
+            throw new MailRuApiException(MailRuApiException.UNKNOWN_ERROR);
         }
         try {
             return new JSONObject(response).has("error");
