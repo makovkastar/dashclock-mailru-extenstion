@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">DashClock Mail.Ru Extension</string>
+    <string name="extension_title">Mail.Ru</string>
+    <string name="extension_description">Отображает количество непрочитанных писем в ящике на Mail.Ru.</string>
+    <string name="title_settings">Настройки расширения DashClock для почты Mail.Ru</string>
+    <string name="title_login">Авторизация на Mail.Ru</string>
+    <string name="authorization_needed_status">Необходима авторизация</string>
+    <string name="authorization_needed_body">Пожалуйста, пройдите авторизацию на Mail.Ru.</string>
+
+    <!-- Toasts -->
+    <string name="toast_login_success">Вы успешно авторизировались</string>
+    <string name="toast_login_fail">Ошибка при авторизации</string>
+
+    <!-- Preferences -->
+    <string name="key_log_in">log_in</string>
+    <string name="key_rate_app">rate_app</string>
+
+    <string name="pref_category_title_feedback">Обратная связь</string>
+    <string name="pref_summary_log_in">Войти в аккаунт Mail.Ru</string>
+    <string name="pref_title_log_in">Войти</string>
+    <string name="pref_summary_rate_app">Оценить приложение</string>
+    <string name="pref_title_rate_app">Нравится расширение для Mail.Ru?</string>
+</resources>
