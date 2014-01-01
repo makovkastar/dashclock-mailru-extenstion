@@ -2,7 +2,7 @@
 <resources>
     <plurals name="unread_mails">
         <item quantity="one">%d непрочитанное письмо</item>
-        <item quantity="few">%d непроитанных писем</item>
+        <item quantity="few">%d непрочитанных письма</item>
         <item quantity="many">%d непрочитанных писем</item>
     </plurals>
 </resources>
